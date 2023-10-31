@@ -8,31 +8,45 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
+import java.util.stream.Collectors;
 
 public class LeetCode22 {
     List<String> ans = new ArrayList<>();
-    public List<String> generateParenthesis(int n) {
-        helper("(", n);
+    Stack<String> stack = new Stack<>();
+
+    public List<String> generateParentheses(int n) {
+        backtrack(n, 0, 0);
         return ans;
     }
 
-    public void helper(String s, int n) {
+    /**
+     * Add contents of stack when open and closed parentheses counts 
+     * are equal to n.
+     *
+     * Conditions for adding parentheses:
+     * Add open parentheses if open count is less than n.
+     * Add closed parentheses if closed count is less than open count.
+     * 
+     * Backtrack by popping the character after the recursive call.
+     */
+    public void backtrack(int n, int open, int closed) {
         // Base case
-        if (n == 0) {
-            ans.add(s);
+        if (open == n && closed == n) {
+            ans.add(stack.stream().map(s -> s.toString()).collect(Collectors.joining("")));
             return;
         }
 
-        char c = s.charAt(s.length() - 1);
-
-        if (c == '(') {
-            s.concat(")");
-            helper(s, n - 1);
+        if (open < n) {
+            stack.push("(");
+            backtrack(n, open + 1, closed);
+            stack.pop();
         }
 
-        if (c == ')') {
-            
+        if (closed < open) {
+            stack.push(")");
+            backtrack(n, open, closed + 1);
+            stack.pop();
         }
-
     }
 }
