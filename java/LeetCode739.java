@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * Given an array of integers temperatures represents 
@@ -13,22 +14,22 @@ import java.util.Map;
 public class LeetCode739 {
     
     public int[] dailyTemperatures(int[] temperatures) {
+        Stack<Integer> stack = new Stack<>();
         int n = temperatures.length;
         int[] ans = new int[n];
-        Map<Integer, Integer> map = new HashMap<>();
+        
+        for (int i = n - 1; i >= 0; i--) {
+            // Pop indices until a higher value is found
+            while (!stack.isEmpty() && temperatures[i] >= temperatures[stack.peek()]) {
+                stack.pop();
+            }
+            
+            // The index of the higher value is at top of stack now
+            if (!stack.isEmpty()) {
+                ans[i] = stack.peek() - i;
+            }
 
-        for (int i = 0; i < n; i++) {
-            if (map.containsKey(temperatures[i]) && i < map.get(temperatures[i])) {
-                ans[i] = map.get(temperatures[i]) - i;
-                continue;
-            }
-            for (int j = i + 1; j < n; j++) {
-                if (temperatures[i] < temperatures[j]) {
-                    map.put(temperatures[i], j);
-                    ans[i] = j - i;
-                    break;
-                }
-            }
+            stack.push(i);
         }
         
         return ans;
