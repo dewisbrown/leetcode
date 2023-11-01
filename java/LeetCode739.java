@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 /**
  * Given an array of integers temperatures represents 
  * the daily temperatures, return an array answer such 
@@ -11,7 +13,21 @@ public class LeetCode739 {
     
     public int[] dailyTemperatures(int[] temperatures) {
         int n = temperatures.length;
+        Stack<Integer> stack = new Stack<>();
         int[] ans = new int[n];
+
+        for (int i = n - 1; i >= 0; i--) {
+
+            while (!stack.isEmpty() && temperatures[i] >= temperatures[stack.peek()]) {
+                stack.pop();
+            }
+
+            if (!stack.isEmpty()) {
+                ans[i] = stack.peek() - i;
+            }
+
+            stack.push(i);
+        }
         
         return ans;
     }
