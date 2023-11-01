@@ -12,6 +12,7 @@ import java.util.Stack;
 public class LeetCode739 {
     
     public int[] dailyTemperatures(int[] temperatures) {
+        Stack<Integer> stack = new Stack<>();
         int n = temperatures.length;
         Stack<Integer> stack = new Stack<>();
         int[] ans = new int[n];
@@ -22,6 +23,20 @@ public class LeetCode739 {
                 stack.pop();
             }
 
+            if (!stack.isEmpty()) {
+                ans[i] = stack.peek() - i;
+            }
+
+            stack.push(i);
+        }
+        
+        for (int i = n - 1; i >= 0; i--) {
+            // Pop indices until a higher value is found
+            while (!stack.isEmpty() && temperatures[i] >= temperatures[stack.peek()]) {
+                stack.pop();
+            }
+            
+            // The index of the higher value is at top of stack now
             if (!stack.isEmpty()) {
                 ans[i] = stack.peek() - i;
             }
