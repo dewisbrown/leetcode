@@ -12,7 +12,6 @@ import java.util.Stack;
 public class LeetCode739 {
     
     public int[] dailyTemperatures(int[] temperatures) {
-        Stack<Integer> stack = new Stack<>();
         int n = temperatures.length;
         Stack<Integer> stack = new Stack<>();
         int[] ans = new int[n];
