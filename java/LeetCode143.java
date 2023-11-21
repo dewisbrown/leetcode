@@ -46,19 +46,4 @@ public class LeetCode143 {
             first = temp1;
         }
     }
-
-    public void reverseList(ListNode node) {
-        ListNode prev = new ListNode();
-        ListNode curr = node;
-        ListNode next = new ListNode();
-
-        while (curr != null) {
-            next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
-        }
-
-        node = prev;
-    }
 }
