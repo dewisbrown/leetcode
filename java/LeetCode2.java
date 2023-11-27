@@ -9,35 +9,72 @@
  */
 public class LeetCode2 {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        long num1 = 0;
-        long num2 = 0;
+        // set first node value
+        int sum = l1.val + l2.val;
+        int remainder = (sum / 10 > 0) ? 1 : 0;
+        ListNode res;
 
-        long i = 1;
-        while (l1 != null) {
-            long digit = i * l1.val;
-            num1 += digit;
-            l1 = l1.next;
-            i *= 10;
+        if (remainder == 0) {
+            res = new ListNode(sum);
+        } else {
+            res = new ListNode(sum % 10);
         }
 
-        i = 1;
-        while (l2 != null) {
-            long digit = i * l2.val;
-            num2 += digit;
-            l2 = l2.next;
-            i *= 10;
-        }
-
-        long twoSum = num1 + num2;
-
-        ListNode res = new ListNode((int)(twoSum % 10));
         ListNode curr = res;
-        twoSum /= 10;
+        l1 = l1.next;
+        l2 = l2.next;
 
-        while (twoSum > 0) {
-            curr.next = new ListNode((int)(twoSum % 10));
+        // iterate through lists until one is null
+        while (l1 != null && l2 != null) {
+            sum = l1.val + l2.val + remainder;
+            
+            // check if sum is two digits
+            remainder = (sum / 10 > 0) ? 1 : 0;
+
+            if (remainder == 0) {
+                curr.next = new ListNode(sum);
+            } else {
+                curr.next = new ListNode(sum % 10);
+            }
+
+            // move pointers
+            l1 = l1.next;
+            l2 = l2.next;
             curr = curr.next;
-            twoSum /= 10;
+        }
+
+        // check if either list still has values
+        while (l1 != null) {
+            sum = l1.val + remainder;
+            remainder = (sum / 10 > 0) ? 1 : 0;
+
+            if (remainder == 0) {
+                curr.next = new ListNode(sum);
+            } else {
+                curr.next = new ListNode(sum % 10);
+            }
+
+            curr = curr.next;
+            l1 = l1.next;
+        }
+        
+        while (l2 != null) {
+            sum = l2.val + remainder;
+            remainder = (sum / 10 > 0) ? 1 : 0;
+
+            if (remainder == 0) {
+                curr.next = new ListNode(sum);
+            } else {
+                curr.next = new ListNode(sum % 10);
+            }
+
+            curr = curr.next;
+            l2 = l2.next;
+        }
+
+        // if there is still a remainder, add one more node with val = 1
+        if (remainder > 0) {
+            curr.next = new ListNode(1);
         }
 
         return res;
