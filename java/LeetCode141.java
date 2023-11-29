@@ -14,6 +14,7 @@
 public class LeetCode141 {
     public boolean hasCycle(ListNode head) {
         // Floyd's Cycle-Finding Algorithm
+        // uses O(1) space and O(n) time
         ListNode slow = head;
         ListNode fast = head;
 
