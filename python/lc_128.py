@@ -12,10 +12,10 @@ def longestConsecutive(nums: list[int]) -> int:
     longest = 0
 
     for n in nums:
-        # check if n is the start of a sequence
+        # check if n is the start of a sequence (checks if number has a left neighbor)
         if (n - 1) not in nums_set:
             length = 0
-            # count sequence of numbers from there
+            # count sequence of numbers from there (look for right neighbors continuously)
             while n + length in nums_set:
                 length += 1
             longest = max(length, longest)
