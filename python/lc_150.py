@@ -14,9 +14,25 @@ Note that:
 - The input represents a valid arithmetic expression in a reverse polish notation.
 - The answer and all the intermediate calculations can be represented in a 32-bit integer.
 """
-def evalRPN(self, tokens: list[str]) -> int:
+def evalRPN(tokens: list[str]) -> int:
     stack = []
-    return 0
+    operators = ['+', '-', '/', '*']
+    for token in tokens:
+        if token in operators:
+            int_b = stack.pop()
+            int_a = stack.pop()
+            if token == '+':
+                value = int_a + int_b
+            elif token == '-':
+                value = int_a - int_b
+            elif token == '*':
+                value = int_a * int_b
+            elif token == '/':
+                value = int(int_a / int_b)
+        else:
+            value = int(token)
+        stack.append(value)
+    return stack.pop()
 
 
 
@@ -26,5 +42,5 @@ ex_in = [
     ["10","6","9","3","+","-11","*","/","*","17","+","5","+"]
 ]
 
-# for ex in ex_in:
-#     print(evalRPN(ex))
+for ex in ex_in:
+    print(evalRPN(ex))
