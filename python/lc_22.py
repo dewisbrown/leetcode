@@ -10,7 +10,23 @@ def generateParenthesis(n: int) -> list[str]:
     """
     stack = []
     ans = []
-    backtrack(n, 0, 0, stack, ans)
+
+    def backtrack(o, c):
+        if o == c == n:
+            ans.append(''.join(stack))
+            return
+
+        if o < n:
+            stack.append('(')
+            backtrack(o + 1, c)
+            stack.pop()
+
+        if c < o:
+            stack.append(')')
+            backtrack(o, c + 1)
+            stack.pop()
+
+    backtrack(0, 0)
     return ans
 
 # Add contents of stack when open and closed parentheses counts
@@ -21,21 +37,6 @@ def generateParenthesis(n: int) -> list[str]:
 # - Add closed parentheses if closed count is less than open count.
 #
 # Backtrack by popping the character after the recursive call.
-def backtrack(n: int, open_count: int, closed_count: int, stack: list[str], ans: list[list[str]]) -> None:
-    if open_count == n and closed_count == n:
-        # add contents of stack to result list
-        ans.append(stack)
-        stack.clear()
-        return
-
-    if open_count < n:
-        stack.append('(')
-        backtrack(n, open_count + 1, closed_count, stack, ans)
-
-    if closed_count < n:
-        stack.append(')')
-        backtrack(n, open_count, closed_count + 1, stack, ans)
-
 
 ex_in = [3, 1]
 for ex in ex_in:
